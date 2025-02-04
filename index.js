@@ -1,14 +1,19 @@
-// Basic Hello World
-console.log("Hello from Node.js!");
-
-// Simple HTTP Server (optional)
 const http = require('http');
+const fs = require('fs'); // File system module to read HTML file
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello from your first Node.js server!');
+  // Read the HTML file
+  fs.readFile('./index.html', (err, data) => {
+    if (err) {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('File not found!');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(data); // Send the HTML file as the response
+    }
+  });
 });
 
-server.listen(3000, () => {
-  console.log('Server running at http://localhost:3000/');
+server.listen(3001, () => {
+  console.log('Server running at http://localhost:3001/');
 });
